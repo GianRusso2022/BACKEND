@@ -38,7 +38,6 @@ class ProductManager {
         return productById
     }
 
-
     updateProducts = async (id, product) => {
         let productById = await this.exist(id)
         if (!productById) return "Producto inexistente"
@@ -47,7 +46,6 @@ class ProductManager {
         let products = [{ ...product, id: id }, ...productOld]
         await this.writeProducts(products)
         return "Producto actualizado"
-
     }
 
     deleteProducts = async (id) => {
@@ -60,8 +58,6 @@ class ProductManager {
         }
         return "Producto inexistente"
     }
-
 }
-
 
 export default ProductManager

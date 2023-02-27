@@ -13,7 +13,7 @@ class CartManager {
         let carts = await fs.readFile(this.path, "utf-8")
         return JSON.parse(carts)
     }
-    
+
     exist = async (id) => {
         let carts = await this.readCarts()
         return carts.find(c => c.id === id)
@@ -25,40 +25,34 @@ class CartManager {
         return cartById
     }
 
-
     writeCarts = async (carts) => {
         await fs.writeFile(this.path, JSON.stringify(carts))
     }
 
-    addCarts = async () =>{
+    addCarts = async () => {
         let cartsOld = await this.readCarts()
         let id = nanoid()
-        let cartsConcat = [{id:id, products:[]},...cartsOld]
+        let cartsConcat = [{ id: id, products: [] }, ...cartsOld]
         await this.writeCarts(cartsConcat)
         return "Carrito agregado"
     }
-    
-    addProductInCart = async (cartId, prodId) =>{
+
+    addProductInCart = async (cartId, prodId) => {
         let cartById = await this.exist(cartId)
         if (!cartById) return "Carrito inexistente"
         let productById = await productAll.exist(prodId)
         if (!cartById) return "Producto inexistente"
-
         let cartsAll = await this.readCarts()
         let cartFilter = cartsAll.filter(c => c.id != cartId)
-        
-        if(cartById.products.some((p) => p.id === prodId)){
+        if (cartById.products.some((p) => p.id === prodId)) {
             let productInCart = cartById.products.find((p) => p.id === prodId)
             productInCart.qty++
-            console.log(productInCart.qty);
-            let cartsConcat = [cartById, ... cartFilter]
+            let cartsConcat = [cartById, ...cartFilter]
             await this.writeCarts(cartsConcat)
             return "Producto incluido en carrito"
         }
-        
-        // falta sumar productos diferentes en un mismo carrito
-
-        let cartsConcat = [{id:cartId, products : [{id : productById.id, qty:1}]}, ...cartFilter]
+        cartById.products.push({ id: productById.id, qty: 1 })
+        let cartsConcat = [cartById, ...cartFilter]
         await this.writeCarts(cartsConcat)
         return "Producto agregado al carrito"
     }

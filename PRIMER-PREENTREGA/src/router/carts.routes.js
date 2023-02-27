@@ -21,4 +21,5 @@ CartRouter.post("/:cartid/products/:prodid", async (req,res) =>{
     let prodId = req.params.prodid
     res.send(await carts.addProductInCart(cartId, prodId))
 })
+
 export default CartRouter;
