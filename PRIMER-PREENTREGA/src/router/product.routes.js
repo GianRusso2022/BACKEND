@@ -1,6 +1,8 @@
 import { Router } from "express";
 import ProductManager from "../controllers/ProductManager.js"
 
+import { productSchema} from "../validator/productValidate.js";
+
 const ProductRouter = Router()
 const product = new ProductManager()
 
@@ -14,8 +16,12 @@ ProductRouter.get("/:id", async (req, res) => {
 })
 
 ProductRouter.post("/", async (req, res) => {
-    let newProduct = req.body
-    res.send(await product.addProducts(newProduct))
+    const {error, value}  = productSchema.validate(req.body)
+    if (error){
+        return res.status(500).json(error.details)
+    }
+    res.send(await product.addProducts(value))
+
 })
 
 ProductRouter.delete("/:id", async (req, res) => {
