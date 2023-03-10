@@ -27,6 +27,14 @@ app.get("/", async (req,res) =>{
     })
 })
 
+app.get("/:id", async (req,res) =>{
+    let producto = await product.getProductsById(req.params.id)
+    res.render("product",{
+        title: "hndlbrs",
+        products: producto
+    })
+})
+
 app.use("/api/products", ProductRouter)
 app.use("/api/cart", CartRouter)
 
