@@ -38,18 +38,6 @@ class ProductManager {
         } else throw new Error(`Error: No se encontro el id${id}.`) 
     }
 
-
-
-//  updateProducts = async (id, product) => {
-//         let productById = await this.exist(id)
-//         if (!productById) return "Producto inexistente"
-//         await this.deleteProducts(id)
-//         let productOld = await this.readProducts()
-//         let products = [{ ...product, id: id }, ...productOld]
-//         await this.writeProducts(products)
-//         return "Producto actualizado"
-//     }
-
     updateProducts = async (id, product) => {
         this.getProductsById(id)
         await this.deleteProducts(id)
@@ -57,13 +45,6 @@ class ProductManager {
         let products = [{ ...product, id: id }, ...productOld]
         await this.writeProducts(products)
     }
-
-
-
-
-
-
-
 
     deleteProducts = async (id) => {
         let products = await this.readProducts()
