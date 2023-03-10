@@ -10,7 +10,7 @@ class ProductManager {
         let products = await fs.readFile(this.path, "utf-8")
         return JSON.parse(products)
     }
-
+    
     writeProducts = async (product) => {
         await fs.writeFile(this.path, JSON.stringify(product))
     }
@@ -33,10 +33,22 @@ class ProductManager {
 
     getProductsById = async (id) => {
         let productById = await this.exist(id)
-        if (productById) {
+        if (productById){
             return productById
-        } else throw new Error(`Error: No se encontro el id${id}.`)
+        } else throw new Error(`Error: No se encontro el id${id}.`) 
     }
+
+
+
+//  updateProducts = async (id, product) => {
+//         let productById = await this.exist(id)
+//         if (!productById) return "Producto inexistente"
+//         await this.deleteProducts(id)
+//         let productOld = await this.readProducts()
+//         let products = [{ ...product, id: id }, ...productOld]
+//         await this.writeProducts(products)
+//         return "Producto actualizado"
+//     }
 
     updateProducts = async (id, product) => {
         this.getProductsById(id)
@@ -45,6 +57,13 @@ class ProductManager {
         let products = [{ ...product, id: id }, ...productOld]
         await this.writeProducts(products)
     }
+
+
+
+
+
+
+
 
     deleteProducts = async (id) => {
         let products = await this.readProducts()

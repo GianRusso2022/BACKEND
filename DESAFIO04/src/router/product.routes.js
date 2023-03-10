@@ -39,16 +39,40 @@ ProductRouter.delete("/:id", async (req, res) => {
     res.send(await product.deleteProducts(id))
 })
 
+
+
+
+// ProductRouter.put("/:id", async (req, res) => {
+//     let id = req.params.id
+//     let updateProducts = req.body
+//     res.send(await product.updateProducts(id, updateProducts))
+// })
+
+
+
+
+
 ProductRouter.put("/:id", async (req, res) => {
     let id = req.params.id
     const { error, value, } = productSchema.validate(req.body)
     if (error) {
         return res.status(500).json(error.details)
-    } else {
-        res.status(200).json(({ status: "Producto actualziado", result: await product.updateProducts(id, value) }))
+    } else{
+        res.status(200).json(({ status: "Producto actualziado", result: await product.updateProducts(id, value)}))
+        // res.status(200).json(({ status: "Producto subido", paydload: (value)}))
     }
-
+    // res.status(200).json(await product.updateProducts(id, value))
 })
+
+
+
+
+
+
+
+
+
+
 
 export default ProductRouter;
 
